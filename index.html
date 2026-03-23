@@ -1,116 +1,277 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Ruan Ramos</title>
-
+  <title>BetHn</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      text-align: center;
-    }
-
-    /* TOPO CINZA */
-    header {
-      background-color: grey;
+      font-family: Arial;
+      background: #0b1220;
       color: white;
-      padding: 20px;
     }
 
-    .foto {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-top: 10px;
-      border: 3px solid white;
+    header {
+      background: #111827;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #22c55e;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #111827;
+      height: 100vh;
+      padding: 15px;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
     }
 
     .card {
-      background: white;
-      padding: 20px;
-      margin: 30px auto;
-      width: 300px;
+      background: #1f2937;
+      padding: 15px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
     }
 
-    /* BOTÕES LADO A LADO */
-    .botoes {
+    button {
+      background: #22c55e;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: black;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
+
+    input {
+      padding: 8px;
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+
+    .match {
       display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    /* BOTÃO MARROM */
-    .btn {
-      background-color: #8B4513;
-      color: white;
-      padding: 10px 15px;
-      text-decoration: none;
-      border-radius: 5px;
+    .odds button {
+      margin-left: 5px;
     }
 
-    .btn:hover {
-      background-color: #5a2e0c;
+    .hidden {
+      display: none;
     }
 
-    /* INSTAGRAM MARROM */
-    .insta {
-      background-color: #8B4513;
-      color: white;
-      padding: 10px 15px;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-
-    .insta:hover {
-      background-color: #5a2e0c;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    footer {
-      margin-top: 30px;
-      padding: 10px;
-      background-color: #ddd;
+    .history {
+      font-size: 14px;
+      color: #d1d5db;
     }
   </style>
-
 </head>
 <body>
 
-  <!-- TOPO -->
-  <header>
-    <h1>Ruan Ramos</h1>
+<header>
+  <div class="logo">🎰 BetHn</div>
+  <div>Saldo: R$ <span id="balance">1000</span></div>
+</header>
 
-    
-    <p>Bem-vindo 👋</p>
-  </header>
-
-  <!-- CONTEÚDO PRINCIPAL -->
+<div id="loginScreen" class="main">
   <div class="card">
-    <h2>Eu</h2>
+    <h2>Login</h2>
+    <input id="username" placeholder="Usuário">
+    <input id="password" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+  </div>
+</div>
 
-    <p>
-      Apenas um menino que gosta de tecnología.
-    </p>
+<div id="app" class="container hidden">
 
-      <a class="insta" href="https://instagram.com/ruannn05_" target="_blank">
-        Instagram
-      </a>
-    </div>
+  <div class="sidebar">
+    <h3>Menu</h3>
+    <button onclick="showSection('matches')">Partidas</button>
+    <button onclick="showSection('history')">Histórico</button>
+    <button onclick="logout()">Sair</button>
+
+    <hr>
+
+    <h4>Aposta</h4>
+    <div id="betSlip">Nenhuma aposta selecionada</div>
+    <input type="number" id="betAmount" placeholder="Valor">
+    <button onclick="placeBet()">Apostar</button>
   </div>
 
-  <!-- RODAPÉ -->
-  <footer>
-    <p>é o inter</p>
-  </footer>
+  <div class="main">
+
+    <div id="matchesSection">
+      <h2>Partidas</h2>
+
+      <div class="card">
+        <div class="match">
+          <span>Time A vs Time B</span>
+          <div class="odds">
+            <button onclick="selectBet('Time A', 1.8)">1.8</button>
+            <button onclick="selectBet('Time B', 2.1)">2.1</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="match">
+          <span>Time C vs Time D</span>
+          <div class="odds">
+            <button onclick="selectBet('Time C', 1.5)">1.5</button>
+            <button onclick="selectBet('Time D', 2.5)">2.5</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="historySection" class="hidden">
+      <h2>Histórico</h2>
+      <div id="history"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let balance = localStorage.getItem("balance") || 1000;
+let selectedBet = null;
+
+document.getElementById("balance").innerText = balance;
+
+function login() {
+  const user = document.getElementById("username").value;
+  const pass = document.getElementById("password").value;
+
+  if (user && pass) {
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+  } else {
+    alert("Preencha os campos");
+  }
+}
+
+function logout() {
+  location.reload();
+}
+
+function showSection(section) {
+  document.getElementById("matchesSection").classList.add("hidden");
+  document.getElementById("historySection").classList.add("hidden");
+
+  if (section === "matches") {
+    document.getElementById("matchesSection").classList.remove("hidden");
+  } else {
+    document.getElementById("historySection").classList.remove("hidden");
+    loadHistory();
+  }
+}
+
+function selectBet(team, odd) {
+  selectedBet = { team, odd };
+  document.getElementById("betSlip").innerText =
+    `${team} (Odd: ${odd})`;
+}
+
+function placeBet() {
+  const amount = parseFloat(document.getElementById("betAmount").value);
+
+  if (!selectedBet) {
+    alert("Selecione uma aposta");
+    return;
+  }
+
+  if (!amount || amount <= 0) {
+    alert("Valor inválido");
+    return;
+  }
+
+  if (amount > balance) {
+    alert("Saldo insuficiente");
+    return;
+  }
+
+  // Simulação
+  const win = Math.random() < 0.5;
+
+  let resultText = "";
+  let profit = 0;
+
+  if (win) {
+    profit = amount * selectedBet.odd;
+    balance += profit;
+    resultText = "GANHOU";
+  } else {
+    balance -= amount;
+    resultText = "PERDEU";
+  }
+
+  localStorage.setItem("balance", balance);
+  document.getElementById("balance").innerText = balance;
+
+  saveHistory(selectedBet.team, amount, resultText, profit);
+
+  alert(`Resultado: ${resultText}`);
+}
+
+function saveHistory(team, amount, result, profit) {
+  let history = JSON.parse(localStorage.getItem("history")) || [];
+
+  history.push({
+    team,
+    amount,
+    result,
+    profit,
+    date: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("history", JSON.stringify(history));
+}
+
+function loadHistory() {
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+  const container = document.getElementById("history");
+
+  container.innerHTML = "";
+
+  history.forEach(h => {
+    const div = document.createElement("div");
+    div.className = "card history";
+    div.innerHTML = `
+      <strong>${h.team}</strong><br>
+      Valor: R$ ${h.amount}<br>
+      Resultado: ${h.result}<br>
+      Lucro: R$ ${h.profit}<br>
+      Data: ${h.date}
+    `;
+    container.appendChild(div);
+  });
+}
+</script>
 
 </body>
 </html>
