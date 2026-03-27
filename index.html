@@ -27,18 +27,20 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 15px 50px;
+  padding: 15px 30px;
   backdrop-filter: blur(12px);
   background: rgba(0,0,0,0.4);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   z-index: 1000;
 }
 
 nav a {
   color: white;
-  margin-left: 25px;
+  margin-left: 20px;
   text-decoration: none;
+  font-weight: 500;
 }
 
 /* HERO */
@@ -49,19 +51,20 @@ nav a {
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding: 20px;
   background: linear-gradient(270deg, #00f7ff, #0066ff, #8a2be2);
   background-size: 600% 600%;
   animation: gradientMove 12s ease infinite;
 }
 
 .hero h1 {
-  font-size: 48px;
+  font-size: 42px;
   max-width: 800px;
 }
 
 .hero p {
   max-width: 600px;
-  margin: 20px 0;
+  margin: 15px 0;
   opacity: 0.9;
 }
 
@@ -71,6 +74,7 @@ nav a {
   color: #000;
   border-radius: 30px;
   font-weight: bold;
+  border: none;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -103,9 +107,14 @@ nav a {
   padding: 25px;
   border-radius: 15px;
   border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
 }
 
-/* WHATS */
+.card:hover, .price:hover {
+  transform: translateY(-10px) scale(1.03);
+}
+
+/* WHATSAPP */
 .whatsapp {
   position: fixed;
   bottom: 20px;
@@ -113,14 +122,18 @@ nav a {
   background: #25D366;
   padding: 18px;
   border-radius: 50%;
-  color: white;
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 0 15px #25D366;
 }
 
 /* MOBILE */
 @media (max-width:600px){
-  .hero h1 { font-size: 32px; }
+  .hero h1 { font-size: 30px; }
 }
 
+/* ANIMATION */
 @keyframes gradientMove {
   0% { background-position: 0% }
   50% { background-position: 100% }
@@ -146,7 +159,7 @@ nav a {
   <p>Sites rápidos, modernos e feitos para gerar vendas no WhatsApp.</p>
   <p>🔥 Mais de 20 projetos entregues</p>
   <button class="btn" onclick="irWhats()">Quero meu site agora</button>
-  <p style="margin-top:10px;color:#fff;">⚠️ Vagas limitadas essa semana</p>
+  <p style="margin-top:10px;">⚠️ Vagas limitadas essa semana</p>
 </section>
 
 <section class="section" id="servicos">
@@ -176,17 +189,17 @@ nav a {
     <div class="price">
       <h3>Básico</h3>
       <p>1 página + WhatsApp</p>
-      <h2>R$197</h2>
+      <h2>R$97</h2>
     </div>
     <div class="price">
       <h3>Profissional</h3>
-      <p>Site completo + design premium</p>
-      <h2>R$397</h2>
+      <p>Site completo + design profissional</p>
+      <h2>R$197</h2>
     </div>
     <div class="price">
       <h3>Premium</h3>
       <p>Site completo + suporte + personalização</p>
-      <h2>R$697+</h2>
+      <h2>R$297</h2>
     </div>
   </div>
 </section>
@@ -196,7 +209,7 @@ nav a {
   <div class="cards">
     <div class="card">✅ Entrega rápida</div>
     <div class="card">✅ Atendimento direto</div>
-    <div class="card">✅ Preço justo</div>
+    <div class="card">✅ Preço acessível</div>
     <div class="card">✅ Foco em resultado</div>
   </div>
 </section>
